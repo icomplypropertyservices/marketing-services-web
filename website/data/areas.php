@@ -1,0 +1,38 @@
+<?php
+declare(strict_types=1);
+
+/** Area pages: each has its own local angle. Delivery is remote-first across the UK. */
+return [
+'manchester' => ['name' => 'Manchester', 'region' => 'Greater Manchester',
+    'intro' => 'Manchester is one of the most competitive digital markets outside London, with dense clusters of property, construction, professional services and tech firms all bidding for the same local searches. Standing out means sharp positioning, strong map visibility and campaigns targeted by postcode rather than city-wide.',
+    'angle' => 'We are based in Greater Manchester, so we can meet in person, film on site and understand the difference between marketing to Didsbury homeowners, Salford Quays businesses and city-centre landlords.',
+    'nearby' => ['Salford', 'Trafford', 'Stockport', 'Oldham', 'Bury', 'Rochdale']],
+'stockport' => ['name' => 'Stockport', 'region' => 'Greater Manchester',
+    'intro' => 'Stockport combines busy town-centre regeneration with affluent suburbs and a strong base of trades, property and professional firms. Local buyers search by town and neighbourhood, so map pack position and reviews carry a lot of weight.',
+    'angle' => 'Stockport is home for us. We know the local search landscape across Bramhall, Cheadle, Hazel Grove, Marple and Edgeley, and can meet face to face.',
+    'nearby' => ['Cheadle', 'Bramhall', 'Hazel Grove', 'Marple', 'Wilmslow', 'Manchester']],
+'cheshire' => ['name' => 'Cheshire', 'region' => 'North West',
+    'intro' => 'Cheshire\'s mix of affluent towns, rural areas and business parks rewards marketing that targets the right postcodes with premium positioning. Buyers expect a polished brand and strong reviews before they consider a supplier.',
+    'angle' => 'We run campaigns across Macclesfield, Wilmslow, Knutsford, Chester, Crewe and Warrington, often with separate messaging for high-value residential and commercial audiences.',
+    'nearby' => ['Macclesfield', 'Wilmslow', 'Knutsford', 'Chester', 'Crewe', 'Warrington']],
+'liverpool' => ['name' => 'Liverpool', 'region' => 'Merseyside',
+    'intro' => 'Liverpool has a large private rented sector, a growing professional services base and plenty of independent businesses competing locally. Landlord-focused and trade marketing perform well when they are hyper-local.',
+    'angle' => 'We plan Liverpool campaigns by district, from the city centre and Baltic Triangle to the Wirral and Sefton, so budget goes where your customers actually are.',
+    'nearby' => ['Wirral', 'Sefton', 'Knowsley', 'St Helens', 'Warrington', 'Southport']],
+'leeds' => ['name' => 'Leeds', 'region' => 'West Yorkshire',
+    'intro' => 'Leeds is a major centre for financial, legal and professional services as well as a strong property market. B2B marketing, LinkedIn and search visibility for professional services are particularly important here.',
+    'angle' => 'Our Leeds work is delivered remotely with regular video calls, covering Leeds, Bradford, Wakefield, Harrogate and the wider West Yorkshire area.',
+    'nearby' => ['Bradford', 'Wakefield', 'Harrogate', 'Huddersfield', 'Halifax', 'York']],
+'birmingham' => ['name' => 'Birmingham', 'region' => 'West Midlands',
+    'intro' => 'Birmingham and the West Midlands cover a huge population and a wide spread of manufacturing, construction, property and service businesses. Broad campaigns waste money here; tight geographic and audience targeting does not.',
+    'angle' => 'We segment Birmingham campaigns by borough and audience, covering Solihull, Sutton Coldfield, Wolverhampton, Coventry and the Black Country.',
+    'nearby' => ['Solihull', 'Sutton Coldfield', 'Wolverhampton', 'Coventry', 'Walsall', 'Dudley']],
+'london' => ['name' => 'London', 'region' => 'Greater London',
+    'intro' => 'London is the most expensive and competitive advertising market in the UK. Cost per click can be several times higher than elsewhere, which makes precise targeting, strong landing pages and tight conversion tracking essential.',
+    'angle' => 'For London clients we focus on borough-level targeting, specialist niches and conversion rate, so every pound of spend works harder than a city-wide approach.',
+    'nearby' => ['Westminster', 'Camden', 'Croydon', 'Barnet', 'Ealing', 'Greenwich']],
+'uk-wide' => ['name' => 'UK-wide', 'region' => 'United Kingdom',
+    'intro' => 'Many of our clients sell across the UK or serve multiple regions. National campaigns need a structure that still feels local to each buyer: regional landing pages, location-specific ads and listings for each branch or service area.',
+    'angle' => 'We deliver remotely across England, Scotland, Wales and Northern Ireland, with video calls, shared dashboards and on-site filming or workshops where needed.',
+    'nearby' => ['England', 'Scotland', 'Wales', 'Northern Ireland', 'North West', 'Midlands']],
+];

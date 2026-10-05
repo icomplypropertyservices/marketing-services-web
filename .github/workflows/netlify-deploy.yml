@@ -1,0 +1,49 @@
+name: Netlify preview alias on main
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# PREVIEW ONLY. Push to main builds, checks and updates the `preview` alias.
+# It never runs `netlify deploy --prod` and never attaches apex DNS.
+# Production DNS for icomplymarketingservices.co.uk is Jack-go only.
+# SITE_ID: a888cb51-357f-4572-95a0-57e1b080b8f6
+# Preview host: https://icomply-marketing-services.netlify.app
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-alias:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+
+      - name: Static export + checks
+        env:
+          SITE_URL: https://icomplymarketingservices.co.uk
+        run: |
+          php website/bin/static-export.php
+          php website/bin/check-static-export.php
+
+      - name: Alias deploy (not production promote)
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "${NETLIFY_AUTH_TOKEN}" ] || [ -z "${NETLIFY_SITE_ID}" ]; then
+            echo "::warning::NETLIFY_AUTH_TOKEN / NETLIFY_SITE_ID not set on the repo. Build + checks passed; deploy skipped."
+            exit 0
+          fi
+          if [ "${NETLIFY_SITE_ID}" != "a888cb51-357f-4572-95a0-57e1b080b8f6" ]; then
+            echo "Refusing deploy: SITE_ID is not the Marketing Services preview site."
+            exit 1
+          fi
+          npx --yes netlify-cli deploy --dir=dist --site="${NETLIFY_SITE_ID}" --alias preview --message "main preview ${GITHUB_SHA}"
