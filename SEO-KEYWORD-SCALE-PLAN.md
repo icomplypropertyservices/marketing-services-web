@@ -1,33 +1,30 @@
-# Marketing Services — SEO keyword scale plan — 2026-10-05
+# Marketing Services: SEO keyword scale plan (updated 2026-10-06, go-live)
 
-## Current ship (this preview)
+## Live now (wave 1, `wave_towns = 500`)
 | Asset | Count | Notes |
 |------|------:|-------|
-| Service pages (full quality) | 38 | Core + AI + channels expansion |
-| Area pages | 8 | Manchester…UK-wide |
-| Industries | 5 | Existing |
-| Keyword CORE list | 3245 | `website/data/keywords/MARKETING-KEYWORDS-CORE.txt` |
-| Keyword ×place P0 stems (17 services × 500 towns) | 8500 | Listed; pages NOT mass-generated yet |
-| Keyword ALL (core ∪ sample ×place) | 5715 | `MARKETING-KEYWORDS-ALL.txt` |
-| Handoff AI keywords ingested | 186 | From PS HANDOFF file |
+| Service hubs | 38 | Core + AI + channels |
+| Region / county / town hubs | 12 / 155 / 500 | GeoNames + ONS data, unique local modules |
+| Service × town pages | 19,000 | 38 × 500, ≥800 unique body words, near-dup gate 0.60 |
+| Keyword pages (audience + AI topic) | 111 | `/marketing/{stem}/` |
+| Total HTML pages | 19,835 | |
+| Keyword CORE | 3245 | 100% mapped to a live page |
+| Keyword ×place P0 (17 × 500) | 8500 | 100% live |
+| Handoff AI keywords | 186 | 100% live |
 
-## Why pages are not all live yet
-Quality bar (unique body, FAQs, CTAs, no doorway city-swap) matches Property main-web / PS locks. Mass-shipping 17×5000 town pages would be thin without SEO lock + enrichment wave.
+Synonym keywords map to the closest existing page (service hub / service×town) instead of getting duplicate pages. See `dist/keyword-map.csv` after a build.
 
-## Scale path to thousands of **pages**
-1. **Lock** CORE + AI handoff + channel stems (done in data/).
-2. **P0 pages**: service hubs already live; next wave = priority service × top 50–100 towns with unique local modules (angle, nearby, proof) — target ~1–2k quality pages.
-3. **P1**: remaining services × top 500 towns after scorecard.
-4. **Full UK TOP5000**: only after enrichment + noindex-off go-live decision (Jack).
-5. Service×area matrix routes: `/services/{slug}/{area}/` when template uniqueness passes check-static-export (≥800 words on service paths).
+## Wave config (documented, frozen)
+Per Jack (2026-10-06): ship the current wave only; no further waves or packs for now.
 
-## Planned page math (quality-gated)
-| Wave | Formula | Approx pages | Gate |
-|------|---------|-------------:|------|
-| Now | 38 services + hubs/areas/industries/company | ~70 | Live in this deploy |
-| P0 ×place | 17 priority × 75 towns | ~1,275 | Local module + FAQ uniqueness |
-| P1 ×place | 17 × 500 towns | ~8,500 | Scorecard + internal links |
-| Full | 38 × up to 5000 | tens of thousands | Jack go + enrichment |
+| Wave | `wave_towns` | Service×town pages | Approx total pages | Approx dist |
+|------|---:|---:|---:|---:|
+| 1 (live) | 500 | 19,000 | 19,835 | 1.2 GB |
+| 2 | 1000 | 38,000 | ~39k | ~2.3 GB |
+| … | +500 per wave | +19,000 | | +1.15 GB |
+| 10 (full) | 5000 | 190,000 | ~194k | ~11.5 GB |
+
+9 waves remain to reach the full 38 × 5000. Each wave needs Jack's go and must pass `check-static-export` (word count, near-duplicate, bubble/contacts, sitemap child < 50k).
 
 ## Cross-site keyword scale (ops snapshot)
 | Site | Corpus notes |
@@ -37,5 +34,6 @@ Quality bar (unique body, FAQs, CTAs, no doorway city-swap) matches Property mai
 | Marketing | This plan + CORE/ALL files; AI handoff owned here |
 
 ## Do not
-- Ship thin `{service} in {town}` scaffolds
-- Attach apex or remove noindex until Jack says go
+- Ship thin `{service} in {town}` scaffolds (check gate enforces it)
+- Start a new wave or pack without Jack's go
+- Attach the apex or change DNS before the domain is bought (then follow DOMAIN-CUTOVER.md)
