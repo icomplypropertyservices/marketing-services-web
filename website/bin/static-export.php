@@ -11,7 +11,7 @@ require dirname(__DIR__) . '/includes/pages.php';
 require dirname(__DIR__) . '/includes/local.php';
 
 $repo = dirname(__DIR__, 2);
-$dist = $repo . '/dist';
+$dist = (string) (getenv('DIST_DIR') ?: $repo . '/dist');
 
 function ms_rrmdir(string $dir): void
 {
@@ -53,6 +53,7 @@ $t0 = microtime(true);
 ms_rrmdir($dist);
 mkdir($dist, 0775, true);
 ms_copy_tree(dirname(__DIR__) . '/assets', $dist . '/assets');
+file_put_contents($dist . '/assets/i.svg', ms_icon_sprite());
 
 $cfg = ms_config();
 $written = [];   // path => group

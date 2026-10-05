@@ -24,7 +24,7 @@ const MAX_SIM = 0.60;
 const MIN_WORDS = 800;
 
 $repo = dirname(__DIR__, 2);
-$dist = $repo . '/dist';
+$dist = (string) (getenv('DIST_DIR') ?: $repo . '/dist');
 $cfg = require $repo . '/website/config/site.php';
 $report = json_decode((string) @file_get_contents($dist . '/export-report.json'), true);
 $errors = [];
@@ -201,7 +201,15 @@ foreach ($pages as $path => $group) {
         }
     }
 }
-foreach (['robots.txt', 'sitemap.xml', '404.html', 'assets/css/site.css', 'assets/js/site.js'] as $f) {
+// Icon sprite: every <use href="/assets/i.svg#id"> on sampled pages must resolve to a <symbol id="id">.
+$sprite = (string) @file_get_contents("$dist/assets/i.svg");
+foreach (array_slice(array_keys($pages), 0, 60) as $sp) {
+    preg_match_all('#<use href="/assets/i\.svg\#([a-z-]+)"#', (string) @file_get_contents($fileFor($sp)), $um);
+    foreach (array_unique($um[1]) as $sid) {
+        str_contains($sprite, '<symbol id="' . $sid . '"') || $errors[] = "$sp: icon #$sid missing from assets/i.svg";
+    }
+}
+foreach (['robots.txt', 'sitemap.xml', '404.html', 'assets/css/site.css', 'assets/js/site.js', 'assets/i.svg'] as $f) {
     file_exists("$dist/$f") || $errors[] = "missing $f";
 }
 $robotsTxt = (string) @file_get_contents("$dist/robots.txt");

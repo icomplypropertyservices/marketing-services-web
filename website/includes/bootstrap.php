@@ -52,10 +52,10 @@ function ms_whatsapp(string $context = ''): string
     return 'https://wa.me/' . ms_config()['whatsapp'] . '?text=' . rawurlencode($msg);
 }
 
-/** Small inline line icons (stroke = currentColor). */
-function ms_icon(string $key, string $class = 'icon'): string
+/** Line icon paths (stroke = currentColor). Served once as /assets/i.svg (sprite). */
+function ms_icon_paths(): array
 {
-    $paths = [
+    return [
         'search' => '<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>',
         'target' => '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
         'megaphone' => '<path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M17 8a5 5 0 0 1 0 8"/>',
@@ -82,8 +82,25 @@ function ms_icon(string $key, string $class = 'icon'): string
         'network' => '<circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 7.5l2.5 7M16 7.5l-2.5 7M8.5 6h7"/>',
         'cpu' => '<rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3"/>',
     ];
-    $p = $paths[$key] ?? $paths['check'];
-    return '<svg class="' . ms_h($class) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $p . '</svg>';
+}
+
+/** External SVG sprite written by static-export to /assets/i.svg (keeps page weight down). */
+function ms_icon_sprite(): string
+{
+    $out = '<svg xmlns="http://www.w3.org/2000/svg">';
+    foreach (ms_icon_paths() as $k => $p) {
+        $out .= '<symbol id="' . $k . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' . $p . '</symbol>';
+    }
+    // WhatsApp glyph (filled; colour comes from .wa-bubble svg { fill } in site.css).
+    $out .= '<symbol id="wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></symbol>';
+    return $out . '</svg>' . "\n";
+}
+
+/** Small line icon: references the shared sprite (one cached request instead of ~95 inline SVGs per page). */
+function ms_icon(string $key, string $class = 'icon'): string
+{
+    $key = isset(ms_icon_paths()[$key]) ? $key : 'check';
+    return '<svg class="' . ms_h($class) . '" aria-hidden="true"><use href="/assets/i.svg#' . $key . '"/></svg>';
 }
 
 function ms_jsonld(array $data): string
