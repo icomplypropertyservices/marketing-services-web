@@ -21,7 +21,7 @@ File: `website/data/uk-places.csv` (5,000 rows), built by `website/data/sources/
    script. Scotland, Wales and Northern Ireland use the nation as the region and the council area as the county.
 4. Ranking: the 500 locked XPLACE-P0 towns first (in their locked order, all 500 matched), then every other place by
    GeoNames population, cut at 5,000.
-5. `nearby` = the 8 closest places in the dataset by great-circle distance between GeoNames coordinates (km, 1 dp).
+5. `nearby` = the 16 closest places in the dataset by great-circle distance between GeoNames coordinates (km, 1 dp).
 
 ## What is published and what is not
 

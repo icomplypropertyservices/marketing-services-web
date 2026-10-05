@@ -6,7 +6,7 @@ Usage (downloads ~4 MB into a temp dir; nothing else is fetched):
 
 Facts kept per place: GeoNames name, lat/lon, country (admin1), local authority
 (admin2), English region / metropolitan county (fixed ONS lookups below), and
-the 8 nearest places in the dataset by great-circle distance. Population is
+the 16 nearest places in the dataset by great-circle distance. Population is
 used ONLY to rank and select the top N; it is not published on pages, because
 GeoNames population figures for UK places mix settlement and district totals.
 """
@@ -165,12 +165,12 @@ for i, r in enumerate(top):
     gy, gx = int(r['lat'] * 4), int(r['lon'] * 2.5)
     cand = []
     rad = 1
-    while len(cand) < 9 and rad < 40:
+    while len(cand) < 17 and rad < 40:
         cand = [j for dy in range(-rad, rad + 1) for dx in range(-rad, rad + 1) for j in grid.get((gy + dy, gx + dx), []) if j != i]
         rad += 1
     rad += 1
     cand = [j for dy in range(-rad, rad + 1) for dx in range(-rad, rad + 1) for j in grid.get((gy + dy, gx + dx), []) if j != i]
-    near = sorted(((km(r, top[j]), j) for j in cand))[:8]
+    near = sorted(((km(r, top[j]), j) for j in cand))[:16]
     r['nearby'] = ';'.join(f"{top[j]['slug']}:{d:.1f}" for d, j in near)
 
 out = os.path.join(repo, 'website/data/uk-places.csv')

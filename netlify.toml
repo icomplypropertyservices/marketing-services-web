@@ -1,8 +1,8 @@
-# iComply Marketing Services — PREVIEW SITE ONLY
+# iComply Marketing Services — LIVE (Jack Scott go, 2026-10-06)
 # Site name: icomply-marketing-services
-# Preview URL: https://icomply-marketing-services.netlify.app
+# Live URL: https://icomply-marketing-services.netlify.app (canonical host, see website/config/site.php)
 # NETLIFY_SITE_ID: a888cb51-357f-4572-95a0-57e1b080b8f6
-# Do NOT attach icomplymarketingservices.co.uk or www until Jack says go.
+# Apex icomplymarketingservices.co.uk is NOT registered yet: do not attach a custom domain or touch DNS.
 # NETLIFY_AUTH_TOKEN lives in GitHub Actions secrets only, never in git.
 
 [build]
@@ -11,7 +11,7 @@
 
 [build.environment]
   PHP_VERSION = "8.3"
-  SITE_URL = "https://icomplymarketingservices.co.uk"
+  # Canonical host comes from website/config/site.php (site_url). No SITE_URL override here.
 
 # Source folders are never published (publish = dist), but 404 them anyway
 # in case the publish root is ever misconfigured.
@@ -24,8 +24,6 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
-    X-Preview-Site = "icomply-marketing-services"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "SAMEORIGIN"

@@ -92,7 +92,7 @@ return [
         ['Scale what works', 'Budget moves to the campaigns, locations and times producing leads at the right cost.'],
     ],
     'measure' => ['Cost per lead by campaign', 'Conversion rate from click to enquiry', 'Search impression share on core terms', 'Wasted spend removed via negatives', 'Lead quality feedback from your team'],
-    'fit' => 'Google Ads suits businesses that need enquiries quickly, have a clear service area and can handle new leads promptly. It works well alongside SEO and for seasonal or urgent services where people search and call the same day.',
+    'fit' => 'Google Ads suits businesses that need enquiries quickly, have a clear service area and can handle new leads promptly. It works well alongside SEO and for seasonal or urgent services where people search and call straight away.',
     'related' => ['websites-landing-pages', 'seo', 'meta-ads'],
     'faqs' => [
         ['How much should I spend on Google Ads?', 'It depends on competition in your area and your target cost per lead. We model a starting budget from keyword costs and your job values, then adjust once we have real data. Ad spend is paid directly to Google from your own account.'],

@@ -9,10 +9,10 @@ function ms_hero(string $eyebrow, string $h1, string $lede, string $context = ''
         . ($eyebrow !== '' ? '<p class="eyebrow">' . ms_h($eyebrow) . '</p>' : '')
         . '<h1>' . ms_h($h1) . '</h1><p class="lede">' . ms_h($lede) . '</p>'
         . ms_cta_buttons($context)
-        . '<ul class="hero-trust">'
+        . '<!--b--><ul class="hero-trust">'
         . '<li>' . ms_icon('check', 'icon icon-sm') . 'Free marketing review</li>'
-        . '<li>' . ms_icon('check', 'icon icon-sm') . 'Reply within one working day</li>'
-        . '<li>' . ms_icon('check', 'icon icon-sm') . 'UK team, plain-English reporting</li></ul>'
+        . '<li>' . ms_icon('check', 'icon icon-sm') . 'Written quote before any work</li>'
+        . '<li>' . ms_icon('check', 'icon icon-sm') . 'UK team, plain-English reporting</li></ul><!--/b-->'
         . '</div>' . $aside . '</div></section>';
 }
 
@@ -60,11 +60,11 @@ function ms_paras(array $ps): string
 function ms_quote_aside(string $title, string $text, string $context): string
 {
     $c = ms_config();
-    return '<aside class="side-card"><h2>' . ms_h($title) . '</h2><p>' . ms_h($text) . '</p>'
+    return '<!--b--><aside class="side-card"><h2>' . ms_h($title) . '</h2><p>' . ms_h($text) . '</p>'
         . '<a class="btn btn-primary btn-block" href="/contact/#quote">Get a free quote</a>'
         . '<a class="btn btn-outline btn-block" href="' . ms_tel() . '">' . ms_icon('phone', 'icon icon-sm') . ms_h($c['phone_display']) . '</a>'
         . '<a class="btn btn-whatsapp btn-block" href="' . ms_h(ms_whatsapp($context)) . '" target="_blank" rel="noopener">' . ms_icon('chat', 'icon icon-sm') . 'WhatsApp us</a>'
-        . '<p class="side-fine">' . ms_h($c['hours']) . '</p></aside>';
+        . '<p class="side-fine">' . ms_h($c['hours']) . '</p></aside><!--/b-->';
 }
 
 /* ---------- Home ---------- */
@@ -94,9 +94,10 @@ function ms_page_home(): array
         $ind .= '<a class="chip" href="/industries/' . $slug . '/">' . ms_h($i['name']) . '</a>';
     }
     $areas = '';
-    foreach (ms_data('areas') as $slug => $a) {
-        $areas .= '<a class="chip chip-light" href="/areas/' . $slug . '/">' . ms_h($a['name']) . '</a>';
+    foreach (ms_data('regions') as $slug => $r) {
+        $areas .= '<a class="chip chip-light" href="/areas/region/' . $slug . '/">' . ms_h($r['name']) . '</a>';
     }
+    $areas .= '<a class="chip chip-light" href="/areas/">All UK areas</a>';
 
     $body = ms_hero('Full-service marketing agency · UK', 'Marketing that fills your diary, not just your inbox', 'iComply Marketing Services plans and runs SEO, ads (Google, Meta, LinkedIn, TikTok, YouTube), AI tools, funnels, automation, GBP, creative production and more for UK SMEs and B2B firms. One team, one plan, measured on enquiries.', '', $aside)
         . '<section class="strip"><div class="wrap strip-inner"><span>Channels we plan and run:</span><span>Google Search</span><span>Google Maps</span><span>Meta</span><span>Instagram</span><span>LinkedIn</span><span>YouTube</span><span>TikTok</span><span>Email</span></div></section>'
@@ -187,12 +188,13 @@ function ms_page_service(string $slug, array $s): array
         . '<h2>Why invest in ' . ms_h($ctxName) . '?</h2>' . ms_paras($s['intro'])
         . '<div class="mid-cta"><p>Want to know what ' . ms_h($ctxName) . ' could do for you? We will review your current position for free.</p><a class="btn btn-primary btn-sm" href="/contact/?service=' . $slug . '#quote">Get my free review</a></div>'
         . '<h2>Who it is for</h2><p>' . ms_h($s['fit']) . '</p>'
-        . '</div>' . ms_quote_aside('Get a quote for ' . $ctxName, 'Tell us about your business and goals. We will reply within one working day with next steps.', $ctxName) . '</div></section>'
+        . '</div>' . ms_quote_aside('Get a quote for ' . $ctxName, 'Tell us about your business and goals. We will come back to you with clear next steps.', $ctxName) . '</div></section>'
         . '<section class="section section-alt"><div class="wrap"><div class="section-head"><p class="eyebrow">What you get</p><h2>What our ' . ms_h($ctxName) . ' service includes</h2><p>Scoped to your goals in a written proposal. Typical deliverables:</p></div><div class="grid grid-2">' . $inc . '</div></div></section>'
         . '<section class="section"><div class="wrap split"><div><p class="eyebrow">How we deliver</p><h2>Our ' . ms_h($ctxName) . ' process</h2><p>Clear stages, agreed priorities and regular check-ins so you always know what is happening and why.</p></div>' . ms_steps($s['process']) . '</div></section>'
         . '<section class="section section-navy"><div class="wrap split"><div><p class="eyebrow">Accountability</p><h2>What we measure and report</h2><p>Tracking is set up before work starts, so results are measured against a baseline. Every month you get a short, plain-English report and a call to agree the next priorities.</p></div><ul class="measure-list">' . $measure . '</ul></div></section>'
         . ms_faq_html($s['faqs'], $s['name'] . ' FAQs')
         . '<section class="section section-alt"><div class="wrap"><div class="section-head"><p class="eyebrow">Works well with</p><h2>Related services</h2></div><div class="grid grid-3">' . $related . '</div></div></section>'
+        . (function_exists('ms_service_where') ? ms_service_where($slug, $s) : '')
         . ms_cta_band('Get more from ' . $ctxName, '', $ctxName);
 
     return [
@@ -405,24 +407,24 @@ function ms_page_contact(): array
 {
     $c = ms_config();
     $faqs = [
-        ['What happens after I send the form?', 'We review your website and online presence, then contact you within one working day to arrange a short call. After the call you get a written proposal.'],
+        ['What happens after I send the form?', 'We review your website and online presence, then contact you to arrange a short call. After the call you get a written proposal.'],
         ['Is the review really free?', 'Yes. There is no charge and no obligation for the initial review and proposal.'],
         ['What information should I have ready?', 'Your website address, the services and areas you want to grow, a rough idea of your average job value, and any marketing you are already running.'],
     ];
     $body = '<section class="hero hero-compact"><div class="wrap"><p class="eyebrow">Contact</p><h1>Get a free marketing review and quote</h1>'
-        . '<p class="lede">Tell us about your business and what you want more of. We reply within one working day.</p></div></section>'
+        . '<p class="lede">Tell us about your business and what you want more of. Call, WhatsApp or use the form, whichever suits you.</p></div></section>'
         . '<section class="section"><div class="wrap contact-grid">'
         . '<div class="card form-card" id="quote"><h2>Request your quote</h2>' . ms_quote_form() . '</div>'
         . '<aside class="contact-side">'
         . '<a class="contact-tile" href="' . ms_tel() . '">' . ms_icon('phone') . '<span><strong>Call us</strong>' . ms_h($c['phone_display']) . '<small>' . ms_h($c['hours']) . '</small></span></a>'
-        . '<a class="contact-tile tile-wa" href="' . ms_h(ms_whatsapp()) . '" target="_blank" rel="noopener">' . ms_icon('chat') . '<span><strong>WhatsApp</strong>Message us any time<small>Usually answered same day</small></span></a>'
+        . '<a class="contact-tile tile-wa" href="' . ms_h(ms_whatsapp()) . '" target="_blank" rel="noopener">' . ms_icon('chat') . '<span><strong>WhatsApp</strong>Message us any time<small>Send a message whenever suits you</small></span></a>'
         . '<a class="contact-tile" href="mailto:' . ms_h($c['email']) . '">' . ms_icon('mail') . '<span><strong>Email</strong>' . ms_h($c['email']) . '</span></a>'
         . '<div class="contact-tile static">' . ms_icon('pin') . '<span><strong>Where we are</strong>' . ms_h($c['base']) . '<small>Working with businesses UK-wide</small></span></div>'
         . '</aside></div></section>'
         . ms_faq_html($faqs);
     return [
         'title' => 'Contact iComply Marketing Services | Free Quote',
-        'description' => 'Get a free marketing review and quote from iComply Marketing Services. Call, WhatsApp or send the form — we reply within one working day.',
+        'description' => 'Get a free marketing review and quote from iComply Marketing Services. Call 07517 806082, WhatsApp or send the quote form.',
         'path' => '/contact/',
         'body' => $body,
         'trail' => [['Contact', '']],
@@ -433,10 +435,10 @@ function ms_page_contact(): array
 function ms_page_thanks(): array
 {
     $body = '<section class="hero hero-compact"><div class="wrap"><p class="eyebrow">Thank you</p><h1>We have your request</h1>'
-        . '<p class="lede">Thanks for getting in touch. We will review your details and come back to you within one working day. Need us sooner?</p>'
+        . '<p class="lede">Thanks for getting in touch. We will review your details and come back to you personally. Prefer to talk now?</p>'
         . ms_cta_buttons() . '</div></section>'
         . '<section class="section"><div class="wrap"><div class="section-head"><h2>While you wait, explore our services</h2></div>' . ms_services_grid() . '</div></section>';
-    return ['title' => 'Thank you | iComply Marketing Services', 'description' => 'Thanks for your enquiry. We will be in touch within one working day.', 'path' => '/thank-you/', 'body' => $body, 'trail' => [['Thank you', '']]];
+    return ['title' => 'Thank you | iComply Marketing Services', 'description' => 'Thanks for your enquiry. We will review your details and be in touch.', 'path' => '/thank-you/', 'body' => $body, 'trail' => [['Thank you', '']]];
 }
 
 function ms_page_privacy(): array
@@ -450,7 +452,7 @@ function ms_page_privacy(): array
         . '<h2>Who we share it with</h2><p>We use trusted providers to host this website and process form submissions. We do not sell your data. We do not send marketing emails without an appropriate lawful basis, and you can opt out at any time.</p>'
         . '<h2>How long we keep it</h2><p>Enquiries that do not become clients are kept for up to two years and then deleted. Client records are kept for as long as needed for contractual and legal purposes.</p>'
         . '<h2>Your rights</h2><p>You can ask for a copy of your data, ask us to correct or delete it, or object to how we use it. You can also complain to the Information Commissioner\'s Office (ico.org.uk).</p>'
-        . '<p class="note">This notice is a working draft for the preview site and should be reviewed before go-live.</p>'
+        . '<p class="note">We review this notice periodically and will update this page if anything changes.</p>'
         . '</div></section>';
     return ['title' => 'Privacy Notice | iComply Marketing Services', 'description' => 'How iComply Marketing Services collects, uses and protects information submitted through this website.', 'path' => '/privacy/', 'body' => $body, 'trail' => [['Privacy', '']]];
 }
