@@ -9,6 +9,6 @@ return [
     ['Can you handle all of our marketing?', 'Yes. Many clients use us as their outsourced marketing team across SEO, ads, social, email, content and website. You can also start with one service and add more later.'],
     ['How will I know if it is working?', 'We set up tracking for calls, forms and WhatsApp enquiries before campaigns start, then report monthly on leads, cost per lead and what we did. You get access to live dashboards too.'],
     ['Who owns the accounts and assets?', 'You do. Ad accounts, analytics, Google Business Profile, domain, website and content stay in your business\'s name, with us added as a partner or user.'],
-    ['How quickly can we start?', 'Usually within a week or two of agreeing a proposal. Paid ads can be live soon after onboarding; SEO and content build over the following months.'],
+    ['How quickly can we start?', 'Start dates are agreed in your written proposal once the scope is clear. Paid ads can go live once onboarding and tracking are done; SEO and content build over the following months.'],
     ['Do you work outside Greater Manchester?', 'Yes. We are based in Stockport and work with businesses across the UK, remotely by default and in person where it helps.'],
 ];
