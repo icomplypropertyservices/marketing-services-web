@@ -19,7 +19,7 @@ function ms_hero(string $eyebrow, string $h1, string $lede, string $context = ''
 function ms_ctx(array $s): string
 {
     // Sentence-case label that keeps platform names (Google, Meta) and acronyms intact.
-    return preg_match('/^(SEO|Google|Meta)/', $s['name']) ? $s['name'] : strtolower($s['name']);
+    return preg_match('/^(SEO|Google|Meta|AI|LinkedIn|YouTube|CRO|ASO|SMS|IT|GBP)/', $s['name']) ? $s['name'] : strtolower($s['name']);
 }
 
 function ms_service_card(string $slug, array $s, bool $long = false): string
@@ -98,7 +98,7 @@ function ms_page_home(): array
         $areas .= '<a class="chip chip-light" href="/areas/' . $slug . '/">' . ms_h($a['name']) . '</a>';
     }
 
-    $body = ms_hero('Full-service marketing agency · UK', 'Marketing that fills your diary, not just your inbox', 'iComply Marketing Services plans and runs SEO, Google Ads, Meta ads, social, email, content, branding, websites, listings, reviews and video for UK SMEs and B2B firms. One team, one plan, measured on enquiries.', '', $aside)
+    $body = ms_hero('Full-service marketing agency · UK', 'Marketing that fills your diary, not just your inbox', 'iComply Marketing Services plans and runs SEO, ads (Google, Meta, LinkedIn, TikTok, YouTube), AI tools, funnels, automation, GBP, creative production and more for UK SMEs and B2B firms. One team, one plan, measured on enquiries.', '', $aside)
         . '<section class="strip"><div class="wrap strip-inner"><span>Channels we plan and run:</span><span>Google Search</span><span>Google Maps</span><span>Meta</span><span>Instagram</span><span>LinkedIn</span><span>YouTube</span><span>TikTok</span><span>Email</span></div></section>'
         . '<section class="section"><div class="wrap"><div class="section-head"><p class="eyebrow">Services</p><h2>Every marketing service your business needs</h2><p>Use one service or the whole mix. Each is planned around the enquiries you want and reported in plain English.</p></div>'
         . ms_services_grid() . '</div></section>'
@@ -148,7 +148,7 @@ function ms_page_services(): array
         . ms_cta_band('Tell us what you need', '', 'marketing services');
     return [
         'title' => 'Marketing Services | SEO, PPC, Social, Email, Web & More | iComply',
-        'description' => 'All iComply marketing services: SEO, Google Ads, Meta ads, content, email, social media, branding, websites, listings, reviews, video and strategy.',
+        'description' => 'All iComply marketing services: SEO, paid ads, AI, funnels, automation, GBP, creative, listings, reviews, video, strategy, IT support and more.',
         'path' => '/services/',
         'body' => $body,
         'trail' => [['Services', '']],

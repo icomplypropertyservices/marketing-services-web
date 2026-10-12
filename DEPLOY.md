@@ -12,6 +12,8 @@ Site: **icomply-marketing-services** (Netlify team `icomply`, account `icomplypr
 | Build | `php website/bin/static-export.php && php website/bin/check-static-export.php` |
 | PHP | 8.3 (8.4 also works locally) |
 | First deploy | `6ac4173f1dd657e446dbaac1`, 2026-10-05 23:31 CEST, 36 pages, all HTTP 200 |
+| AI+channels expand | `6ac41c39127348fb50b16147`, 2026-10-05 ~23:53 CEST, 62 pages / 38 services, all spot-check HTTP 200 |
+
 
 ## Hosting decisions
 
