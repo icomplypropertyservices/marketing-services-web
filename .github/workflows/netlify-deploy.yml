@@ -1,22 +1,27 @@
-name: Netlify preview alias on main
+name: Netlify production deploy on main
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
-# PREVIEW ONLY. Push to main builds, checks and updates the `preview` alias.
-# It never runs `netlify deploy --prod` and never attaches apex DNS.
-# Production DNS for icomplymarketingservices.co.uk is Jack-go only.
-# SITE_ID: a888cb51-357f-4572-95a0-57e1b080b8f6
-# Preview host: https://icomply-marketing-services.netlify.app
+# LIVE (Jack Scott go, 2026-10-06). Push to main: static export + checks, then
+# `netlify deploy --prod` to the Marketing Services site when NETLIFY_AUTH_TOKEN exists.
+# Canonical host comes from website/config/site.php (site_url). Never attaches DNS.
+# SITE_ID guard: a888cb51-357f-4572-95a0-57e1b080b8f6 only.
+# Live host: https://icomply-marketing-services.netlify.app
 
 permissions:
   contents: read
 
+concurrency:
+  group: netlify-prod
+  cancel-in-progress: false
+
 jobs:
-  build-and-alias:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -26,13 +31,11 @@ jobs:
           php-version: "8.3"
 
       - name: Static export + checks
-        env:
-          SITE_URL: https://icomplymarketingservices.co.uk
         run: |
-          php website/bin/static-export.php
-          php website/bin/check-static-export.php
+          php -d memory_limit=3G website/bin/static-export.php
+          php -d memory_limit=3G website/bin/check-static-export.php
 
-      - name: Alias deploy (not production promote)
+      - name: Production deploy (--prod)
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -43,7 +46,7 @@ jobs:
             exit 0
           fi
           if [ "${NETLIFY_SITE_ID}" != "a888cb51-357f-4572-95a0-57e1b080b8f6" ]; then
-            echo "Refusing deploy: SITE_ID is not the Marketing Services preview site."
+            echo "Refusing deploy: SITE_ID is not the Marketing Services site."
             exit 1
           fi
-          npx --yes netlify-cli deploy --dir=dist --site="${NETLIFY_SITE_ID}" --alias preview --message "main preview ${GITHUB_SHA}"
+          npx --yes netlify-cli deploy --prod --dir=dist --site="${NETLIFY_SITE_ID}" --message "main ${GITHUB_SHA}"
